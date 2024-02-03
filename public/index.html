@@ -1,11 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realtime Cursor Sharing</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .player {
+            position: absolute;
+
+            width: 30px;
+            height: 30px;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background-color: black;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        document.addEventListener("mousemove", (e) => {
+            let x = e.clientX / document.body.offsetWidth
+            let y = e.clientY / document.body.offsetHeight
+            socket.emit("playerMove", { x, y })
+        })
+
+        socket.on("playerPosition", ({ id, x, y }) => {
+            let playerElement = document.getElementById("player_" + id);
+            if (!playerElement) {
+                playerElement = document.createElement("div");
+                playerElement.classList.add("player");
+                playerElement.id = "player_" + id;
+                document.body.appendChild(playerElement);
+            }
+
+            playerElement.style.left = x * 100 + "%";
+            playerElement.style.top = y * 100 + "%";
+        })
+
+    </script>
 </body>
+
 </html>
