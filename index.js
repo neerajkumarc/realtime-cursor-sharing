@@ -14,6 +14,9 @@ io.on("connection",(socket)=>{
         if (Number.isNaN(x) || Number.isNaN(y)) return;
         io.emit("playerPosition",{id:socket.id,x,y})
     })
+    socket.on("disconnect",()=>{
+        io.emit("playerDisconnected", {id:socket.id})
+    })
 })
 
 server.listen(PORT,()=>{
