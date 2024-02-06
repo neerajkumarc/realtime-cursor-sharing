@@ -38,6 +38,12 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+
+        const randomColor = () => {
+            var color = "#" + Math.floor(Math.random() * 16777216).toString(16).padStart(6, '0');
+            return color;
+        }
+
         document.addEventListener("mousemove", (e) => {
             let x = e.clientX / document.body.offsetWidth
             let y = e.clientY / document.body.offsetHeight
@@ -49,6 +55,7 @@
             if (!playerElement) {
                 playerElement = document.createElement("div");
                 playerElement.classList.add("player");
+                playerElement.style.backgroundColor = randomColor()
                 playerElement.id = "player_" + id;
                 document.body.appendChild(playerElement);
             }
@@ -56,8 +63,8 @@
             playerElement.style.left = x * 100 + "%";
             playerElement.style.top = y * 100 + "%";
         })
-        
-        socket.on("playerDisconnected",({id})=>{
+
+        socket.on("playerDisconnected", ({ id }) => {
             playerElement = document.getElementById("player_" + id)
             document.body.removeChild(playerElement)
         })
