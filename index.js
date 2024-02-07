@@ -10,9 +10,9 @@ app.use(express.static("public"))
 
 io.on("connection",(socket)=>{
     console.log("a user connected!", socket.id)
-    socket.on("playerMove",({x,y})=>{
+    socket.on("playerMove",({x,y,color})=>{
         if (Number.isNaN(x) || Number.isNaN(y)) return;
-        io.emit("playerPosition",{id:socket.id,x,y})
+        io.emit("playerPosition",{id:socket.id,x,y,color})
     })
     socket.on("disconnect",()=>{
         io.emit("playerDisconnected", {id:socket.id})

@@ -47,15 +47,15 @@
         document.addEventListener("mousemove", (e) => {
             let x = e.clientX / document.body.offsetWidth
             let y = e.clientY / document.body.offsetHeight
-            socket.emit("playerMove", { x, y })
+            socket.emit("playerMove", { x, y, color: randomColor()})
         })
 
-        socket.on("playerPosition", ({ id, x, y }) => {
+        socket.on("playerPosition", ({ id, x, y, color }) => {
             let playerElement = document.getElementById("player_" + id);
             if (!playerElement) {
                 playerElement = document.createElement("div");
                 playerElement.classList.add("player");
-                playerElement.style.backgroundColor = randomColor()
+                playerElement.style.backgroundColor = color
                 playerElement.id = "player_" + id;
                 document.body.appendChild(playerElement);
             }
