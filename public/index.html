@@ -5,49 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realtime Cursor Sharing</title>
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .player {
-            position: absolute;
-
-            width: 30px;
-            height: 30px;
-
-            left: 50%;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-
-            border-radius: 50%;
-
-            background-color: black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-
         const randomColor = () => {
-            var color = "#" + Math.floor(Math.random() * 16777216).toString(16).padStart(6, '0');
+            const color = "#" + Math.floor(Math.random() * 16777216).toString(16).padStart(6, '0');
             return color;
         }
 
         document.addEventListener("mousemove", (e) => {
             let x = e.clientX / document.body.offsetWidth
             let y = e.clientY / document.body.offsetHeight
-            socket.emit("playerMove", { x, y, color: randomColor()})
+            socket.emit("playerMove", { x, y, color: randomColor() })
         })
 
         socket.on("playerPosition", ({ id, x, y, color }) => {
