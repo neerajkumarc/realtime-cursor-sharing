@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <p>Players Connected: <span id="connectedPlayer">0</span></p>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
@@ -23,7 +24,8 @@
             socket.emit("playerMove", { x, y, color: randomColor() })
         })
 
-        socket.on("playerPosition", ({ id, x, y, color }) => {
+        socket.on("playerPosition", ({ id, x, y, color, onlinePlayers }) => {
+            document.getElementById("connectedPlayer").textContent = onlinePlayers
             let playerElement = document.getElementById("player_" + id);
             if (!playerElement) {
                 playerElement = document.createElement("div");
