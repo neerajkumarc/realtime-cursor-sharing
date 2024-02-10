@@ -1,1 +1,1 @@
-Example of real-time cursor sharing using sokets.
+Example of real-time cursor sharing using sockets.
