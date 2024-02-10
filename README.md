@@ -1,0 +1,1 @@
+Example of real-time cursor sharing using sokets.
